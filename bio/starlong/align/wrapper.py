@@ -6,11 +6,9 @@ __license__ = "MIT"
 import os
 from snakemake.shell import shell
 
-print('in wrapper...')
-
+print('in STARlong wrapper...')
 extra = snakemake.params.get("extra", "")
 log = snakemake.log_fmt_shell(stdout=True, stderr=True, append=True)
-
 fq1 = snakemake.input.get("fq1")
 
 #fq1 = (
@@ -26,14 +24,13 @@ else:
 
 print(f"fq1 is {fq1}")
 print(f"snakemake.output is {snakemake.output}")
-
-#outprefix = os.path.dirname(snakemake.output) + "/"
-#print(f"outprefix is {outprefix}")
+print(f"snakemake.params.outprefix is {snakemake.params.outprefix}")
 
 shell(
     "STARlong "
     "{extra} "
     "--runThreadN {snakemake.threads} "
+    "--outFileNamePrefix {snakemake.params.outprefix} "
     "--genomeDir {snakemake.params.index} "
     "--twopassMode Basic " 
     "--twopass1readsN -1 " 
@@ -44,5 +41,3 @@ shell(
     "--outStd Log "
     "{log}"
 )
-
-#    "--outFileNamePrefix {outprefix} "
